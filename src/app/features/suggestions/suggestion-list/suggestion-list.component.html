@@ -1,0 +1,6 @@
+<ul>
+  <li *ngFor="let s of [1,2,3]">
+    Suggestion {{ s }}
+    <button [routerLink]="[s]" class="primary">Details</button>
+  </li>
+</ul>
