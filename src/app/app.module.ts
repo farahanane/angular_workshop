@@ -1,3 +1,4 @@
+import { SuggestionFormComponent } from './features/suggestions/suggestion-form/suggestion-form.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
@@ -13,6 +14,9 @@ import { NotfoundComponent } from './core/notfound/notfound.component';
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
 
+import { ReactiveFormsModule } from '@angular/forms';
+import { SuggestionsModule } from './features/suggestions/suggestions.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,8 +30,10 @@ import { RouterModule } from '@angular/router';
     BrowserModule,
     FormsModule,
     CommonModule,
-    RouterModule,       
-    AppRoutingModule  
+    RouterModule,   
+    ReactiveFormsModule, 
+    AppRoutingModule,
+    SuggestionsModule
   ],
   bootstrap: [AppComponent]
 })

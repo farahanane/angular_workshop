@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './core/home/home.component';
 import { ListSuggestionComponent } from './core/list-suggestion/list-suggestion.component';
 import { NotfoundComponent } from './core/notfound/notfound.component';
+import { SuggestionFormComponent } from './features/suggestions/suggestion-form/suggestion-form.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'suggestions', loadChildren: () => import('./features/suggestions/suggestions.module').then(m => m.SuggestionsModule) },
   { path: 'users', loadChildren: () => import('./features/users/users.module').then(m => m.UsersModule) },
   { path: '**', component: NotfoundComponent }
+
 ];
 
 @NgModule({
