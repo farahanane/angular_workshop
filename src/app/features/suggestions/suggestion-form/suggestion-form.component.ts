@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { SuggestionService } from '../../../core/services/suggestion.service';
+import { Suggestion } from '../../../models/suggestion';
 
 @Component({
   selector: 'app-suggestion-form',
@@ -23,43 +25,59 @@ export class SuggestionFormComponent implements OnInit {
   ];
 
   suggestionForm!: FormGroup;
+  id!: number | null;
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private service: SuggestionService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.suggestionForm = this.fb.group({
-      title: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(5),
-          Validators.pattern('^[A-Z][a-zA-Z]*$')
-        ]
-      ],
-      description: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(30)
-        ]
-      ],
-      category: ['', Validators.required],
-      date: [{ value: new Date(), disabled: true }],
-      status: [{ value: 'en attente', disabled: true }]
-    });
-  }
 
-  onSubmit() {
+  this.suggestionForm = this.fb.group({
+    title: ['', Validators.required],
+    description: ['', Validators.required],
+    category: ['', Validators.required],
+    status: ['pending']
+  });
+
+  this.id = this.route.snapshot.params['id'];
+
+  if (this.id) {
+  this.service.getSuggestionById(this.id).subscribe(suggestion => {
+    this.suggestionForm.patchValue({
+      title: suggestion.title,
+      description: suggestion.description,
+      category: suggestion.category,
+      status: suggestion.status
+    });
+  });
+}
+}
+
+  onSubmit(): void {
     if (this.suggestionForm.valid) {
-      const newSuggestion = {
-        id: Date.now(),
-        ...this.suggestionForm.getRawValue(),
+
+      const suggestionData: Suggestion = {
+        ...this.suggestionForm.value,
         nbLikes: 0
       };
 
-      console.log(newSuggestion);
+      // 🔵 UPDATE
+      if (this.id) {
+        this.service.updateSuggestion(this.id, suggestionData).subscribe(() => {
+          this.router.navigate(['/suggestions']);
+        });
+      }
 
-      this.router.navigate(['/suggestions']);
+      // 🟢 ADD
+      else {
+        this.service.addSuggestion(suggestionData).subscribe(() => {
+          this.router.navigate(['/suggestions']);
+        });
+      }
     }
   }
 

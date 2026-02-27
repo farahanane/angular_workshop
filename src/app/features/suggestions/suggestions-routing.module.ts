@@ -6,10 +6,13 @@ import { SuggestionFormComponent } from './suggestion-form/suggestion-form.compo
 
 const routes: Routes = [
   { path: '', component: SuggestionListComponent },
-  { path: 'add', component: SuggestionFormComponent }, 
+
+  { path: 'add', component: SuggestionFormComponent },
+
+  { path: 'add/:id', component: SuggestionFormComponent },
+
   { path: ':id', component: SuggestionDetailsComponent }
 ];
-
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

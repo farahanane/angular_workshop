@@ -6,11 +6,9 @@
       Liste des suggestions
     </h2>
 
-    <!-- ADD BUTTON -->
     <button
       class="btn btn-success"
-      routerLink="/suggestions/add"
-    >
+      routerLink="/suggestions/add">
       ➕ Ajouter suggestion
     </button>
   </div>
@@ -24,14 +22,11 @@
   />
 
   <!-- Suggestions list -->
-  <ng-container *ngFor="let s of suggestions">
+  <div *ngFor="let s of suggestions">
 
     <div
       class="card shadow-sm mb-4"
-      *ngIf="
-        s.title.toLowerCase().includes(searchText.toLowerCase()) ||
-        s.category.toLowerCase().includes(searchText.toLowerCase())
-      "
+      *ngIf="matchesSearch(s)"
     >
       <div class="card-body">
 
@@ -59,38 +54,34 @@
           [ngClass]="{
             'bg-success': s.status === 'acceptee',
             'bg-danger': s.status === 'refusee',
-            'bg-warning text-dark': s.status === 'en_attente'
+            'bg-warning text-dark': s.status === 'pending'
           }"
         >
           {{ s.status | uppercase }}
         </span>
 
         <!-- Action buttons -->
-        <div class="mt-3 d-flex align-items-center gap-2"
-             *ngIf="s.status !== 'refusee'">
+        <div class="mt-3 d-flex flex-wrap gap-2">
 
           <!-- LIKE -->
           <button
             class="btn btn-primary"
-            (click)="likeSuggestion(s)"
-          >
+            (click)="likeSuggestion(s)">
             👍 Like {{ s.nbLikes }}
           </button>
 
-          <!-- FAVORITES -->
-          <button
-            class="btn btn-outline-secondary"
-            (click)="addToFavorites(s)"
-          >
-            ♡ Ajouter aux favoris
-          </button>
-
-          <!-- DETAILS BUTTON -->
+          <!-- DETAILS -->
           <button
             class="btn btn-outline-info"
-            [routerLink]="['/suggestions', s.id]"
-          >
+            [routerLink]="['/suggestions', s.id]">
             🔍 Details
+          </button>
+
+          <!-- DELETE -->
+          <button
+            class="btn btn-danger"
+            (click)="deleteSuggestion(s.id)">
+            🗑 Supprimer
           </button>
 
         </div>
@@ -98,6 +89,6 @@
       </div>
     </div>
 
-  </ng-container>
+  </div>
 
 </div>

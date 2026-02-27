@@ -1,8 +1,10 @@
-import { SuggestionFormComponent } from './features/suggestions/suggestion-form/suggestion-form.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
+import { provideHttpClient } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './core/header/header.component';
@@ -12,9 +14,6 @@ import { HomeComponent } from './core/home/home.component';
 import { NotfoundComponent } from './core/notfound/notfound.component';
 
 import { AppRoutingModule } from './app-routing.module';
-import { RouterModule } from '@angular/router';
-
-import { ReactiveFormsModule } from '@angular/forms';
 import { SuggestionsModule } from './features/suggestions/suggestions.module';
 
 @NgModule({
@@ -30,11 +29,12 @@ import { SuggestionsModule } from './features/suggestions/suggestions.module';
     BrowserModule,
     FormsModule,
     CommonModule,
-    RouterModule,   
-    ReactiveFormsModule, 
+    RouterModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     SuggestionsModule
   ],
+  providers: [provideHttpClient()],  // ✅ ICI
   bootstrap: [AppComponent]
 })
 export class AppModule { }
